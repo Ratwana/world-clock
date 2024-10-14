@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Time Zones</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .time-container {
+            margin: 20px 0;
+        }
+
+        select {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .time-display {
+            margin-top: 20px;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            display: inline-block;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .homepage-link {
+            margin-top: 30px;
+        }
+
+        .homepage-link a {
+            text-decoration: none;
+            color: #0066cc;
+            font-size: 16px;
+        }
+
+        .homepage-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>World Time Zones</h1>
+    
+    <div class="time-container">
+        <label for="location-select">Select a location:</label>
+        <select id="location-select" onchange="updateTime()">
+            <option value="New York">New York (EST)</option>
+            <option value="London">London (GMT)</option>
+            <option value="Tokyo">Tokyo (JST)</option>
+        </select>
+    </div>
+
+    <div id="time-display" class="time-display">
+        <p id="location-time"></p>
+    </div>
+
+    <div id="current-time" class="time-display">
+        <h3>Your Current Location Time</h3>
+        <p id="user-time"></p>
+    </div>
+
+    <div class="homepage-link">
+        <a href="index.html">Back to Homepage</a>
+    </div>
+
+    <script>
+        function updateTime() {
+            const locationSelect = document.getElementById("location-select");
+            const selectedLocation = locationSelect.value;
+            const locationTimeDisplay = document.getElementById("location-time");
+
+            let timeZone;
+            switch (selectedLocation) {
+                case "New York":
+                    timeZone = "America/New_York";
+                    break;
+                case "London":
+                    timeZone = "Europe/London";
+                    break;
+                case "Tokyo":
+                    timeZone = "Asia/Tokyo";
+                    break;
+                default:
+                    timeZone = "UTC";
+            }
+
+            const dateTime = new Date().toLocaleString("en-US", { timeZone: timeZone });
+            locationTimeDisplay.textContent = `Current time in ${selectedLocation}: ${dateTime}`;
+        }
+
+        // Display the user's local time
+        function displayUserTime() {
+            const userTimeDisplay = document.getElementById("user-time");
+            setInterval(() => {
+                const currentTime = new Date().toLocaleString();
+                userTimeDisplay.textContent = `Current time: ${currentTime}`;
+            }, 1000);
+        }
+
+        // Initialize functions on page load
+        window.onload = () => {
+            updateTime();
+            displayUserTime();
+        };
+    </script>
+</body>
+</html>
